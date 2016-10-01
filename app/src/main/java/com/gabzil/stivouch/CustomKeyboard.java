@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 class CustomKeyboard implements OnTaskCompleted {
     private KeyboardView mKeyboardView;
     /** A link to the activity that hosts the {@link #mKeyboardView}. */
@@ -141,16 +143,26 @@ class CustomKeyboard implements OnTaskCompleted {
 
     @Override
     public void OnTaskCompleted(String results) {
-        if (results != "null" && results.length() > 0){
+        if (results != "null" && results.length() > 0) {
 //            Gson gson = new Gson();
 //            CustomerDBEntities customer = gson.fromJson(results, CustomerDBEntities.class);
-            if (results.equals("true")){
-                Intent i = new Intent(mHostActivity,MobileRegistration.class);
-                mHostActivity.startActivity(i);
+            if (results.equals("true")) {
+                Entities e = new Entities();
+                e.setLandingPage("Yes");
+                e.setOTP("No");
+                e.setLogin("No");
+                DataHelp dh = new DataHelp(mHostActivity);
+                if (dh.UpdateSelection(e)) {
+                    MyOpenHelper m = new MyOpenHelper(mHostActivity);
+                    List<Entities> select = m.getSelections();
+                    Intent i = new Intent(mHostActivity, MobileRegistration.class);
+                    mHostActivity.startActivity(i);
+                }
+            } else {
+                Toast.makeText(mHostActivity, "Some problem occured,please try again", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
-            Toast.makeText(mHostActivity,"Some problem occured,please try again",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mHostActivity, "Some problem occured,please try again", Toast.LENGTH_SHORT).show();
         }
     }
 }

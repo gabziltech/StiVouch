@@ -25,10 +25,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
-            android:name=".SetPassword"
-            android:label="@string/title_activity_set_password" >
-        </activity>
-        <activity
             android:name=".UserSelection"
             android:label="@string/title_activity_user_selection" >
         </activity>

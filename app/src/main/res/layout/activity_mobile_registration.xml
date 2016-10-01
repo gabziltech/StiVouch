@@ -40,7 +40,6 @@
                 android:background="@drawable/curve"
                 android:layout_marginTop="25dp"
                 android:padding="5dp"
-                android:inputType="number"
                 android:gravity="center"
                 android:ellipsize="start"
                 android:maxLines="1"

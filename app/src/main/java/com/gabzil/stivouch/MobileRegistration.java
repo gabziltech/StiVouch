@@ -71,20 +71,22 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
     public void processReceive (Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         Object[] pdus = (Object[]) bundle.get("pdus");
-        String smsBody,sms = "";
+        String smsBody = null;
         SmsMessage msgs = null;
-        String senderNumber;
+        String senderNumber = null;
 
         for(int i=0; i<pdus.length; i++){
             msgs = SmsMessage.createFromPdu((byte[]) pdus[i]);
 
             smsBody = msgs.getMessageBody();
             senderNumber = msgs.getOriginatingAddress();
-            sms += "From: " +senderNumber+ "\nContent: "+smsBody+ "\n";
         }
-        String[] sms1 = sms.split("\n");
-        OtpNumber.setText(sms1[2]);
-        CallOTPVerification(sms1[2]);
+        String[] sender = senderNumber.split("-");
+        if (sender[1].equals("040060")) {
+            String[] sms1 = smsBody.split(" ");
+            OtpNumber.setText(sms1[4]);
+            CallOTPVerification(sms1[4]);
+        }
     }
 
     public void CallOTPVerification(String otp) {
@@ -98,7 +100,7 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
 //            Gson gson = new Gson();
 //            CustomerDBEntities customer = gson.fromJson(results, CustomerDBEntities.class);
             if (results.equals("true")){
-                Intent i = new Intent(MobileRegistration.this,SetPassword.class);
+                Intent i = new Intent(MobileRegistration.this,UserSelection.class);
                 startActivity(i);
             }
         }
