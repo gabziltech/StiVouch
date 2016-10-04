@@ -56,6 +56,16 @@
                 android:layout_marginTop="10dp"
                 android:text="Submit"/>
 
+            <TextView
+                android:id="@+id/resend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Resend OTP"
+
+                android:textStyle="italic"/>
+
         </LinearLayout>
 
     </ScrollView>
