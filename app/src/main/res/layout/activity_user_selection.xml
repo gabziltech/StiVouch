@@ -36,6 +36,7 @@
             android:textColor="#000000"/>
 
         <Button
+            android:id="@+id/voucher"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
@@ -45,6 +46,7 @@
             android:textSize="35dp"/>
 
         <Button
+            android:id="@+id/merchant"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
