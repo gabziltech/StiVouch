@@ -5,7 +5,8 @@ package com.gabzil.stivouch;
  */
 public class Entities {
     int ID;
-    String LandingPage;
+    String MobileNo;
+    String OTPNo;
     String OTP;
     String Login;
 
@@ -17,12 +18,20 @@ public class Entities {
         this.ID = ID;
     }
 
-    public String getLandingPage() {
-        return LandingPage;
+    public String getMobileNo() {
+        return MobileNo;
     }
 
-    public void setLandingPage(String landingPage) {
-        LandingPage = landingPage;
+    public void setMobileNo(String mobileNo) {
+        MobileNo = mobileNo;
+    }
+
+    public String getOTPNo() {
+        return OTPNo;
+    }
+
+    public void setOTPNo(String OTPNo) {
+        this.OTPNo = OTPNo;
     }
 
     public String getOTP() {

@@ -17,12 +17,12 @@ import java.net.URL;
 /**
  * Created by Yogesh on 3/17/2016.
  */
-public class SubmitNumber extends AsyncTask<Object, String, String> {
+public class SubmitOTP extends AsyncTask<Object, String, String> {
     private Context mContext;
     ProgressDialog mProgress;
     private OnTaskCompleted mCallback;
 
-    public SubmitNumber(Context context, OnTaskCompleted listner) {
+    public SubmitOTP(Context context, OnTaskCompleted listner) {
         this.mContext = context;
         this.mCallback = listner;
     }
@@ -37,7 +37,8 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
     protected String doInBackground(Object[] params) {
         if (!isCancelled()) {
             String number = (String) params[0];
-            return getServerInfo(number);
+            String otp = (String) params[1];
+            return getServerInfo(number,otp);
         } else
             return null;
     }
@@ -56,7 +57,6 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
 //            SpannableString ss1 = new SpannableString(title);
 //            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
 //            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
-
             SpannableString ss2 = new SpannableString(msg);
             ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
             ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
@@ -71,18 +71,17 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
         }
     }
 
-    private String getServerInfo(String number) {
+    private String getServerInfo(String number, String otp) {
         StringBuilder urlString = new StringBuilder();
-        urlString.append("http://gabstivouch.azurewebsites.net/api/msgservice/getopt?");
+        urlString.append("http://gabstivouch.azurewebsites.net/api/msgservice/verifyopt?");
         urlString.append("mobileno=").append(number);
+        urlString.append("OTPNo=").append(otp);
 
         HttpURLConnection urlConnection = null;
         URL url = null;
-//        JSONObject object = null;
         String temp, response = "";
 
-        try
-        {
+        try {
             url = new URL(urlString.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("POST");
@@ -98,12 +97,9 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
             inStream.close();
             urlConnection.disconnect();
 //            object = (JSONObject) new JSONTokener(response).nextValue();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.getMessage();
         }
-
         return (response);
     }
 }

@@ -21,6 +21,7 @@ class CustomKeyboard implements OnTaskCompleted {
     private KeyboardView mKeyboardView;
     /** A link to the activity that hosts the {@link #mKeyboardView}. */
     private Activity mHostActivity;
+    Entities e = new Entities();
 
     public CustomKeyboard(Activity host, int viewid, int layoutid) {
         mHostActivity= host;
@@ -48,8 +49,9 @@ class CustomKeyboard implements OnTaskCompleted {
             if( primaryCode==CodeDelete ) {
                 if( editable!=null && start>0 ) editable.delete(start - 1, start);
             } else if( primaryCode==Submit ) {
+                e.setMobileNo(edittext.getText().toString().trim());
                 if(!IsValidation())
-                    CallSubmit(edittext.getText().toString().trim());
+                    CallSubmit(e.getMobileNo());
             } else {
                 editable.insert(start, Character.toString((char) primaryCode));
             }
@@ -79,8 +81,7 @@ class CustomKeyboard implements OnTaskCompleted {
 
     private boolean IsValidation() {
         boolean error = false;
-
-        if (edittext.getText().toString().trim().length() < 10) {
+        if (e.getMobileNo().length() < 10) {
             Toast.makeText(mHostActivity, "Please enter 10 digits mobile number", Toast.LENGTH_SHORT).show();
             error = true;
         }
@@ -148,8 +149,7 @@ class CustomKeyboard implements OnTaskCompleted {
 //            CustomerDBEntities customer = gson.fromJson(results, CustomerDBEntities.class);
             if (results.equals("true")) {
                 Entities e = new Entities();
-                e.setLandingPage("Yes");
-                e.setOTP("No");
+                e.setOTP("Yes");
                 e.setLogin("No");
                 DataHelp dh = new DataHelp(mHostActivity);
                 if (dh.UpdateSelection(e)) {

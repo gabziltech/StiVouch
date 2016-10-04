@@ -16,7 +16,7 @@ public class LandingPage extends Activity {
 
         MyOpenHelper m = new MyOpenHelper(getApplicationContext());
         List<Entities> select = m.getSelections();
-        if (select.size() == 0 || select.get(0).getLandingPage().equals("Yes")) {
+        if (select.size() == 0) {
             mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardview, R.xml.hexkbd);
             mCustomKeyboard.registerEditText(R.id.mobileno);
         }
@@ -25,7 +25,9 @@ public class LandingPage extends Activity {
             if (select.get(0).getOTP().equals("Yes")) {
                 i = new Intent(LandingPage.this,MobileRegistration.class);
             } else if (select.get(0).getLogin().equals("Yes")) {
-                i = new Intent(LandingPage.this,MobileRegistration.class);
+                i = new Intent(LandingPage.this,UserSelection.class);
+            } else {
+                i = new Intent(LandingPage.this,LandingPage.class);
             }
             startActivity(i);
         }
