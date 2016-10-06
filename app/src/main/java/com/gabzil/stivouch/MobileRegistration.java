@@ -107,7 +107,9 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
     }
 
     public void CallOTPVerification(String otp) {
-        String MobileNo = e.getMobileNo();
+        MyOpenHelper m = new MyOpenHelper(getApplicationContext());
+        List<Entities> select = m.getSelections();
+        String MobileNo = select.get(0).getMobileNo();
         SubmitOTP submit = new SubmitOTP(MobileRegistration.this, this);
         submit.execute(MobileNo,otp);
     }

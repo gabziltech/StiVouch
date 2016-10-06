@@ -20,7 +20,6 @@ public class UserSelection extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserSelection.this, LoginVoucher.class);
                 startActivity(intent);
-
             }
         });
 

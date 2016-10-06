@@ -22,13 +22,14 @@ public class DataHelp {
     public Boolean UpdateSelection(Entities e) {
         try {
             ContentValues conV = new ContentValues();
+            conV.put("MobileNo", e.getMobileNo());
             conV.put("OTP", e.getOTP());
             conV.put("Login", e.getLogin());
             List<Entities> Selection = db1.getSelections();
             if (Selection.size() == 0) {
                 db.insert(MyOpenHelper.TABLE_NAME, null, conV);
             } else {
-                String where = " ID = " + e.getID();
+                String where = " ID = " + Selection.get(0).getID();
                 db.update(MyOpenHelper.TABLE_NAME, conV, where, null);
             }
             return true;

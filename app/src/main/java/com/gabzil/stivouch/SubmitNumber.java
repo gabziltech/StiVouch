@@ -73,12 +73,11 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
 
     private String getServerInfo(String number) {
         StringBuilder urlString = new StringBuilder();
-        urlString.append("http://gabstivouch.azurewebsites.net/api/msgservice/getopt?");
+        urlString.append("http://gabstivouch.azurewebsites.net/api/GetOTP/getopt?");
         urlString.append("mobileno=").append(number);
 
         HttpURLConnection urlConnection = null;
         URL url = null;
-//        JSONObject object = null;
         String temp, response = "";
 
         try

@@ -21,7 +21,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        db.execSQL("CREATE TABLE PageSelection (Id Integer PRIMARY KEY AUTOINCREMENT,"
+        db.execSQL("CREATE TABLE PageSelection (Id Integer PRIMARY KEY AUTOINCREMENT,MobileNo TEXT,"
                 + "OTP TEXT, Login TEXT)");
     }
 
@@ -45,8 +45,9 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                 do {
                     Entities e = new Entities();
                     e.setID(Integer.parseInt(cursor.getString(0)));
-                    e.setOTP(cursor.getString(1));
-                    e.setLogin(cursor.getString(2));
+                    e.setMobileNo(cursor.getString(1));
+                    e.setOTP(cursor.getString(2));
+                    e.setLogin(cursor.getString(3));
                     // Adding contact to list
                     SelectionList.add(e);
                 } while (cursor.moveToNext());

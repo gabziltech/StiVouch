@@ -1,100 +1,177 @@
 package com.gabzil.stivouch;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignupVoucher extends AppCompatActivity {
-    private EditText vusername,vemail,vdob,vmobileno,vpassword,vcompname,vcompid;
-    private Button vsubmit;
-    private TextView userdob;
-    private CalendarView calendarView;
-    private Spinner vstate,vcountry;
-    int sindex,cindex;
-    private String username,email,dob,mobileno,state,country,password,compname,compid;
+public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
+    private EditText vouchername,vouchermail,vouchermobileno,voucherpassword,vouchercompany,vouchercompanyID;
+    private TextView voucherdob;
+    private Button submit;
+    private Spinner voucherstate,vouchercountry;
+    Calendar myCalendar;
+    VoucherEntities MainVoucher = new VoucherEntities();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_voucher);
 
-        vusername=(EditText)findViewById(R.id.vusername);
-        vemail=(EditText)findViewById(R.id.vuseremail);
-        calendarView = (CalendarView) findViewById(R.id.vcal);
-        userdob=(TextView)findViewById(R.id.vdob);
-        vmobileno=(EditText)findViewById(R.id.vmobileno);
-        vstate=(Spinner)findViewById(R.id.vstate);
-        vcountry=(Spinner)findViewById(R.id.vcounty);
-        vpassword=(EditText)findViewById(R.id.vpassword);
-        vcompname=(EditText)findViewById(R.id.vcompanyname);
-        vcompid=(EditText)findViewById(R.id.vcompanyid);
-        vsubmit=(Button)findViewById(R.id.vsubmit);
+        DeclareCustomerVariables();
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
+        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
+        String currentDateTimeString = myFormat.format(new Date());
+        voucherdob.setText(currentDateTimeString.substring(0, 11));
+        voucherdob.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                // TODO Auto-generated method stub
-                String date=dayOfMonth+" - "+month+" - "+year;
-               // dob=userdob.setText(date);
-                Toast.makeText(getBaseContext(),"Selected Date is\n\n"
-                                +dayOfMonth+" : "+month+" : "+year ,
-                        Toast.LENGTH_LONG).show();
+            public void onClick(View view) {
+                SetDate();
             }
         });
-        vsubmit.setOnClickListener(new View.OnClickListener() {
+
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validation();
+                setCustInformation();
+                if (!IsValidation()) {
+                    SaveCustomerData();
+                }
             }
         });
     }
 
+    public void DeclareCustomerVariables(){
+        vouchername=(EditText)findViewById(R.id.vusername);
+        vouchermail=(EditText)findViewById(R.id.vuseremail);
+        voucherdob=(TextView)findViewById(R.id.vdob);
+        vouchermobileno=(EditText)findViewById(R.id.vmobileno);
+        voucherstate=(Spinner)findViewById(R.id.vstate);
+        vouchercountry=(Spinner)findViewById(R.id.vcounty);
+        voucherpassword=(EditText)findViewById(R.id.vpassword);
+        vouchercompany=(EditText)findViewById(R.id.vcompanyname);
+        vouchercompanyID=(EditText)findViewById(R.id.vcompanyid);
+        submit=(Button)findViewById(R.id.vsubmit);
+    }
 
-    private void validation(){
-        username=vusername.getText().toString().trim();
-        email=vemail.getText().toString().trim();
-       // dob=vdob.getText().toString().trim();
-        mobileno=vmobileno.getText().toString().trim();
-        sindex=vstate.getSelectedItemPosition();
-        cindex=vcountry.getSelectedItemPosition();
-        state=vstate.getSelectedItem().toString().trim();
-        country=vcountry.getSelectedItem().toString().trim();
-        password=vpassword.getText().toString().trim();
-        compname=vcompname.getText().toString().trim();
-        compid=vcompid.getText().toString().trim();
+    private void SaveCustomerData() {
+        final SubmitVoucher p = new SubmitVoucher(getApplicationContext(), this);
+        p.execute(MainVoucher);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                if (p.getStatus() == AsyncTask.Status.RUNNING) {
+                    // My AsyncTask is currently doing work in doInBackground()
+                    p.cancel(true);
+                    p.mProgress.dismiss();
+                    Toast.makeText(getApplicationContext(), "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 1000 * 30);
+    }
 
-        if(username.length()==0){
-            Toast.makeText(this, "Please enter username", Toast.LENGTH_SHORT).show();
-        }else if(email.length()==0){
-            Toast.makeText(this, "Please enter email-id", Toast.LENGTH_SHORT).show();
-        }else if(mobileno.length()==0){
-            Toast.makeText(this, "Please enter mobileno", Toast.LENGTH_SHORT).show();
-        }else if(sindex==0){
-            Toast.makeText(this, "Please select your state", Toast.LENGTH_SHORT).show();
-        }else if(cindex==0){
-            Toast.makeText(this, "Please select your country", Toast.LENGTH_SHORT).show();
-        }else if(password.length()==0){
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-        }else if(isValidEmail(email)){
-            Intent intent=new Intent(SignupVoucher.this,SignupOTP.class);
-               startActivity(intent);
-        }else{
-            Toast.makeText(this, "Please enter valid email-id", Toast.LENGTH_SHORT).show();
+    public void SetDate() {
+        new DatePickerDialog(getApplicationContext(), date1, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    DatePickerDialog.OnDateSetListener date1 = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+    };
+
+    private void updateLabel() {
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
+        voucherdob.setText(df.format(myCalendar.getTime()));
+    }
+
+    public void setCustInformation(){
+        MainVoucher.setVoucherName(vouchername.getText().toString().trim());
+        MainVoucher.setVoucherMail(vouchermail.getText().toString().trim());
+        MainVoucher.setDOB(voucherdob.getText().toString().trim());
+        MainVoucher.setMobileNo(vouchermobileno.getText().toString().trim());
+        MainVoucher.setState(voucherstate.getSelectedItem().toString().trim());
+        MainVoucher.setCountry(vouchercountry.getSelectedItem().toString().trim());
+        MainVoucher.setPassword(voucherpassword.getText().toString().trim());
+        MainVoucher.setCompanyName(vouchercompany.getText().toString().trim());
+        MainVoucher.setCompanyID(Integer.parseInt(vouchercompanyID.getText().toString().trim()));
+    }
+
+    private boolean IsValidation() {
+        boolean error = false;
+        String strmsg = "Please Enter ";
+
+        if (MainVoucher.getVoucherName().trim().length() == 0) {
+            strmsg += "Voucher Name";
+            error = true;
+        }
+        if (MainVoucher.getVoucherMail().trim().length() == 0) {
+            strmsg += ", Mail ID";
+            error = true;
+        } else if(!isValidEmail(MainVoucher.getVoucherMail().trim())) {
+            strmsg += ", Valid Mail ID";
+            error = true;
+        }
+        if (MainVoucher.getDOB().trim().length() == 0) {
+            strmsg += ", DOB";
+            error = true;
+        }
+        if (MainVoucher.getMobileNo().trim().length() == 0) {
+            strmsg += ", Mobile No";
+            error = true;
+        }
+        if (voucherstate.getSelectedItem().toString().equals("Select State")) {
+            strmsg += ", State";
+            error = true;
+        }
+        if (vouchercountry.getSelectedItem().toString().equals("Select Country")) {
+            strmsg += ", Country";
+            error = true;
+        }
+        if (MainVoucher.getPassword().trim().length() == 0) {
+            strmsg += ", Password";
+            error = true;
+        }
+        if (MainVoucher.getCompanyName().trim().length() == 0) {
+            strmsg += ", Company Name";
+            error = true;
+        }
+        if (vouchercompanyID.getText().toString().trim().length() == 0) {
+            strmsg += ", Company ID";
+            error = true;
         }
 
+        if (error == true) {
+            String replacedString = strmsg.replace("Please Enter ,", "Please Enter ");
+            ShowAlert(replacedString);
+        }
+        return error;
     }
 
     private boolean isValidEmail(String emailInput) {
@@ -106,25 +183,22 @@ public class SignupVoucher extends AppCompatActivity {
         return matcher.matches();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_signup_voucher, menu);
-        return true;
+    public void ShowAlert(String msg){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(msg);
+
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void OnVoucherTaskCompleted(String results) {
+        Toast.makeText(getApplicationContext(), "Successs", Toast.LENGTH_SHORT).show();
     }
 }
