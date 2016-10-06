@@ -42,7 +42,7 @@
             android:label="@string/title_activity_signup_voucher" >
         </activity>
         <activity
-            android:name=".SignupOTP"
+            android:name=".SignupOTp"
             android:label="@string/title_activity_signup_otp" >
         </activity>
     </application>
