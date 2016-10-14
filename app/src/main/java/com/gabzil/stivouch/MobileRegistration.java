@@ -110,15 +110,18 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
         MyOpenHelper m = new MyOpenHelper(getApplicationContext());
         List<Entities> select = m.getSelections();
         String MobileNo = select.get(0).getMobileNo();
+
+        OTPInfo info = new OTPInfo();
+        info.setMobileNo(MobileNo);
+        info.setOTPNo(Integer.parseInt(otp));
+
         SubmitOTP submit = new SubmitOTP(MobileRegistration.this, this);
-        submit.execute(MobileNo,otp);
+        submit.execute(info);
     }
 
     @Override
     public void OnTaskCompleted(String results) {
         if (results != "null" && results.length() > 0) {
-//            Gson gson = new Gson();
-//            CustomerDBEntities customer = gson.fromJson(results, CustomerDBEntities.class);
             if (results.equals("true")) {
                 Entities e = new Entities();
                 e.setOTP("No");

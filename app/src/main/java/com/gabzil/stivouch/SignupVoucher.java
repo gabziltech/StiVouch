@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,7 +38,7 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
 
         SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
         String currentDateTimeString = myFormat.format(new Date());
-        voucherdob.setText(currentDateTimeString.substring(0, 11));
+        voucherdob.setText(currentDateTimeString.substring(0, 12));
         voucherdob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,27 +68,33 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         vouchercompany=(EditText)findViewById(R.id.vcompanyname);
         vouchercompanyID=(EditText)findViewById(R.id.vcompanyid);
         submit=(Button)findViewById(R.id.vsubmit);
+        myCalendar = Calendar.getInstance();
     }
 
     private void SaveCustomerData() {
         final SubmitVoucher p = new SubmitVoucher(getApplicationContext(), this);
         p.execute(MainVoucher);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                if (p.getStatus() == AsyncTask.Status.RUNNING) {
-                    // My AsyncTask is currently doing work in doInBackground()
-                    p.cancel(true);
-                    p.mProgress.dismiss();
-                    Toast.makeText(getApplicationContext(), "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, 1000 * 30);
+//        new Handler().postDelayed(new Runnable() {
+//            public void run() {
+//                if (p.getStatus() == AsyncTask.Status.RUNNING) {
+//                    // My AsyncTask is currently doing work in doInBackground()
+//                    p.cancel(true);
+//                    p.mProgress.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }, 1000 * 30);
     }
 
     public void SetDate() {
-        new DatePickerDialog(getApplicationContext(), date1, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        try {
+            new DatePickerDialog(getApplicationContext(), date1, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     DatePickerDialog.OnDateSetListener date1 = new DatePickerDialog.OnDateSetListener() {

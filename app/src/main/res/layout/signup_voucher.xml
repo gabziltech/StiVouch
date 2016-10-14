@@ -23,7 +23,8 @@
             <EditText
                 android:id="@+id/vusername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/curve"/>
 
         </LinearLayout>
 
@@ -40,7 +41,8 @@
             <EditText
                 android:id="@+id/vuseremail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/curve"/>
 
         </LinearLayout>
 
@@ -57,7 +59,8 @@
             <TextView
                 android:id="@+id/vdob"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="30dp"
+                android:background="@drawable/curve"/>
 
         </LinearLayout>
 
@@ -74,7 +77,10 @@
             <EditText
                 android:id="@+id/vmobileno"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="10"
+                android:background="@drawable/curve"/>
 
         </LinearLayout>
 
@@ -123,7 +129,8 @@
                 android:id="@+id/vpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:background="@drawable/curve"/>
 
         </LinearLayout>
 
@@ -166,7 +173,8 @@
             <EditText
                 android:id="@+id/vcompanyid"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
 
         </LinearLayout>
 

@@ -9,10 +9,12 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 
 /**
  * Created by Yogesh on 3/17/2016.
@@ -72,37 +74,37 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
     }
 
     private String getServerInfo(String number) {
-        StringBuilder urlString = new StringBuilder();
-        urlString.append("http://gabstivouch.azurewebsites.net/api/GetOTP/getopt?");
-        urlString.append("mobileno=").append(number);
-
-        HttpURLConnection urlConnection = null;
-        URL url = null;
-        String temp, response = "";
-
-        try
-        {
-            url = new URL(urlString.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("POST");
+        String result = "";
+        URI uri;
+        try {
+            //Connect
+            uri = new URI("http://gabsti.azurewebsites.net/api/Otp");
+            HttpURLConnection urlConnection = (HttpURLConnection) uri.toURL().openConnection();
             urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setRequestMethod("POST");
             urlConnection.connect();
-            InputStream inStream = null;
-            inStream = urlConnection.getInputStream();
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(inStream));
-            while ((temp = bReader.readLine()) != null)
-                response += temp;
-            bReader.close();
-            inStream.close();
-            urlConnection.disconnect();
-//            object = (JSONObject) new JSONTokener(response).nextValue();
-        }
-        catch (Exception e)
-        {
-            e.getMessage();
-        }
+            //Write
+            OutputStream outputStream = urlConnection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            //Call parserUsuarioJson() inside write(),Make sure it is returning proper json string .
+            writer.write(number.toString());
+            writer.close();
+            outputStream.close();
 
-        return (response);
+            //Read
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            bufferedReader.close();
+            result = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

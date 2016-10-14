@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.text.Editable;
 import android.view.View;
 import android.view.WindowManager;
@@ -128,16 +126,16 @@ class CustomKeyboard implements OnTaskCompleted {
     public void CallSubmit(String mobileno) {
         final SubmitNumber p=new SubmitNumber(mHostActivity, this);
         p.execute(mobileno);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                if (p.getStatus() == AsyncTask.Status.RUNNING) {
-                    // My AsyncTask is currently doing work in doInBackground()
-                    p.cancel(true);
-                    p.mProgress.dismiss();
-                    Toast.makeText(mHostActivity, "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, 1000 * 30);
+//        new Handler().postDelayed(new Runnable() {
+//            public void run() {
+//                if (p.getStatus() == AsyncTask.Status.RUNNING) {
+//                    // My AsyncTask is currently doing work in doInBackground()
+//                    p.cancel(true);
+//                    p.mProgress.dismiss();
+//                    Toast.makeText(mHostActivity, "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }, 1000 * 30);
     }
 
     @Override
