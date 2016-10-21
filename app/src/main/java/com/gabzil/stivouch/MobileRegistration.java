@@ -20,15 +20,23 @@ import java.util.List;
 
 public class MobileRegistration extends Activity implements OnTaskCompleted {
     EditText OtpNumber;
-    Button submit;
+    TextView MobileNo;
+    Button Resend,submit;
     BroadcastReceiver receiver;
-    Entities e = new Entities();
+    MyOpenHelper m;
+    OTPInfo info = new OTPInfo();
+    List<Entities> select;
+    String Mobileno;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_registration);
 
-        OtpNumber = (EditText) findViewById(R.id.otp);
+        DeclareVariables();
+
+        MobileNo.setText("+91-" + Mobileno);
+        info.setMobileNo(Mobileno);
+
         OtpNumber.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -40,7 +48,6 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
             }
         });
 
-        TextView Resend = (TextView) findViewById(R.id.resend);
         Resend.setPaintFlags(Resend.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Resend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,15 +59,15 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
             }
         });
 
-        submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                e.setOTPNo(OtpNumber.getText().toString().trim());
+                info.setOTPNo(Integer.parseInt(OtpNumber.getText().toString().trim()));
                 if(!IsValidation())
-                    CallOTPVerification(e.getOTPNo());
+                    CallOTPVerification();
             }
         });
+
         IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         receiver = new BroadcastReceiver() {
             @Override
@@ -71,6 +78,16 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
         registerReceiver(receiver, filter);
     }
 
+    public void DeclareVariables() {
+        MobileNo = (TextView) findViewById(R.id.mobileno);
+        OtpNumber = (EditText) findViewById(R.id.otp);
+        Resend = (Button) findViewById(R.id.resend);
+        submit = (Button) findViewById(R.id.submit);
+        m = new MyOpenHelper(getApplicationContext());
+        select = m.getSelections();
+        Mobileno = select.get(0).getMobileNo();
+    }
+
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
@@ -78,7 +95,7 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
 
     private boolean IsValidation() {
         boolean error = false;
-        if (e.getOTPNo().length() < 4) {
+        if (OtpNumber.getText().toString().trim().length() < 4) {
             Toast.makeText(getApplicationContext(), "Please enter 4 digits OTP", Toast.LENGTH_SHORT).show();
             error = true;
         }
@@ -94,7 +111,6 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
 
         for(int i=0; i<pdus.length; i++){
             msgs = SmsMessage.createFromPdu((byte[]) pdus[i]);
-
             smsBody = msgs.getMessageBody();
             senderNumber = msgs.getOriginatingAddress();
         }
@@ -102,42 +118,39 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
         if (sender[1].equals("040060")) {
             String[] sms1 = smsBody.split(" ");
             OtpNumber.setText(sms1[4]);
-            CallOTPVerification(sms1[4]);
+            info.setOTPNo(Integer.parseInt(sms1[4]));
+            CallOTPVerification();
         }
     }
 
-    public void CallOTPVerification(String otp) {
-        MyOpenHelper m = new MyOpenHelper(getApplicationContext());
-        List<Entities> select = m.getSelections();
-        String MobileNo = select.get(0).getMobileNo();
-
-        OTPInfo info = new OTPInfo();
-        info.setMobileNo(MobileNo);
-        info.setOTPNo(Integer.parseInt(otp));
-
+    public void CallOTPVerification() {
         SubmitOTP submit = new SubmitOTP(MobileRegistration.this, this);
         submit.execute(info);
     }
 
     @Override
     public void OnTaskCompleted(String results) {
-        if (results != "null" && results.length() > 0) {
-            if (results.equals("true")) {
-                Entities e = new Entities();
-                e.setOTP("No");
-                e.setLogin("Yes");
-                DataHelp dh = new DataHelp(getApplicationContext());
-                if (dh.UpdateSelection(e)) {
-                    MyOpenHelper m = new MyOpenHelper(getApplicationContext());
-                    List<Entities> select = m.getSelections();
-                    Intent i = new Intent(MobileRegistration.this, UserSelection.class);
-                    startActivity(i);
+        try {
+            if (results != "null" && results.length() > 0) {
+                if (results.equals("true")) {
+                    Entities e = new Entities();
+                    e.setMobileNo(Mobileno);
+                    e.setOTP("No");
+                    e.setPin("Yes");
+                    e.setLogin("No");
+                    DataHelp dh = new DataHelp(getApplicationContext());
+                    if (dh.UpdateSelection(e)) {
+                        Intent i = new Intent(MobileRegistration.this, SetPin.class);
+                        startActivity(i);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Wrong OTP", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error:" +e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

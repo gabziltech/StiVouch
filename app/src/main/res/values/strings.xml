@@ -34,4 +34,8 @@
     </string-array>
     <string name="title_activity_signup_otp">SignupOTp</string>
 
+    <string name="LandingQuote">“Time is Money join us, We will Help you to save both”</string>
+    <string name="PinQuote">Set your Secret Pin \nYour PIN helps your \naccount secure</string>
+    <string name="title_activity_set_pin">SetPin</string>
+
 </resources>

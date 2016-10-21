@@ -37,8 +37,8 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         DeclareCustomerVariables();
 
         SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
-        String currentDateTimeString = myFormat.format(new Date());
-        voucherdob.setText(currentDateTimeString.substring(0, 12));
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        voucherdob.setText(currentDateTimeString.substring(0,12));
         voucherdob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

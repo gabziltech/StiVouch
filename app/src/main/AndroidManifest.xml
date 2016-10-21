@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LandingPage"
+            android:name=".LandingPage" android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,16 +25,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MobileRegistration"
+            android:name=".MobileRegistration" android:noHistory="true"
             android:label="@string/title_activity_mobile_verification"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
-            android:name=".UserSelection"
+            android:name=".UserSelection" android:noHistory="true"
             android:label="@string/title_activity_user_selection" >
         </activity>
         <activity
-            android:name=".LoginVoucher"
+            android:name=".LoginVoucher" android:noHistory="true"
             android:label="@string/title_activity_login_voucher" >
         </activity>
         <activity
@@ -44,6 +44,11 @@
         <activity
             android:name=".SignupOTp"
             android:label="@string/title_activity_signup_otp" >
+        </activity>
+        <activity
+            android:name=".SetPin" android:noHistory="true"
+            android:label="@string/title_activity_set_pin"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
     </application>
 

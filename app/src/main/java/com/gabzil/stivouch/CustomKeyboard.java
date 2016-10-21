@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +17,6 @@ import android.widget.Toast;
 
 class CustomKeyboard implements OnTaskCompleted {
     private KeyboardView mKeyboardView;
-    /** A link to the activity that hosts the {@link #mKeyboardView}. */
     private Activity mHostActivity;
     Entities e = new Entities();
 
@@ -126,36 +127,39 @@ class CustomKeyboard implements OnTaskCompleted {
     public void CallSubmit(String mobileno) {
         final SubmitNumber p=new SubmitNumber(mHostActivity, this);
         p.execute(mobileno);
-//        new Handler().postDelayed(new Runnable() {
-//            public void run() {
-//                if (p.getStatus() == AsyncTask.Status.RUNNING) {
-//                    // My AsyncTask is currently doing work in doInBackground()
-//                    p.cancel(true);
-//                    p.mProgress.dismiss();
-//                    Toast.makeText(mHostActivity, "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }, 1000 * 30);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                if (p.getStatus() == AsyncTask.Status.RUNNING) {
+                    // My AsyncTask is currently doing work in doInBackground()
+                    p.cancel(true);
+                    p.mProgress.dismiss();
+                    Toast.makeText(mHostActivity, "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 1000 * 30);
     }
 
     @Override
     public void OnTaskCompleted(String results) {
-        if (results != "null" && results.length() > 0) {
-//            Gson gson = new Gson();
-//            CustomerDBEntities customer = gson.fromJson(results, CustomerDBEntities.class);
-            if (results.equals("true")) {
-                e.setOTP("Yes");
-                e.setLogin("No");
-                DataHelp dh = new DataHelp(mHostActivity);
-                if (dh.UpdateSelection(e)) {
-                    Intent i = new Intent(mHostActivity, MobileRegistration.class);
-                    mHostActivity.startActivity(i);
+        try {
+            if (results != "null" && results.length() > 0) {
+                if (results.equals("true")) {
+                    e.setOTP("Yes");
+                    e.setPin("No");
+                    e.setLogin("No");
+                    DataHelp dh = new DataHelp(mHostActivity);
+                    if (dh.UpdateSelection(e)) {
+                        Intent i = new Intent(mHostActivity, MobileRegistration.class);
+                        mHostActivity.startActivity(i);
+                    }
+                } else {
+                    Toast.makeText(mHostActivity, "Some problem occured,please try again", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(mHostActivity, "Some problem occured,please try again", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(mHostActivity, "Some problem occured,please try again", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(mHostActivity, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

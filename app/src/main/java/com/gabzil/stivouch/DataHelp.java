@@ -24,6 +24,7 @@ public class DataHelp {
             ContentValues conV = new ContentValues();
             conV.put("MobileNo", e.getMobileNo());
             conV.put("OTP", e.getOTP());
+            conV.put("Pin", e.getPin());
             conV.put("Login", e.getLogin());
             List<Entities> Selection = db1.getSelections();
             if (Selection.size() == 0) {

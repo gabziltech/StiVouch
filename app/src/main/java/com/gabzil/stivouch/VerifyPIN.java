@@ -8,6 +8,8 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -19,12 +21,12 @@ import java.net.URI;
 /**
  * Created by Yogesh on 3/17/2016.
  */
-public class SubmitNumber extends AsyncTask<Object, String, String> {
+public class VerifyPIN extends AsyncTask<Object, String, String> {
     private Context mContext;
     ProgressDialog mProgress;
-    private OnTaskCompleted mCallback;
+    private OnVerifyTaskCompleted mCallback;
 
-    public SubmitNumber(Context context, OnTaskCompleted listner) {
+    public VerifyPIN(Context context, OnVerifyTaskCompleted listner) {
         this.mContext = context;
         this.mCallback = listner;
     }
@@ -38,8 +40,8 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
     @Override
     protected String doInBackground(Object[] params) {
         if (!isCancelled()) {
-            String number = (String) params[0];
-            return getServerInfo(number);
+            PinInfo info = (PinInfo) params[0];
+            return getServerInfo(info);
         } else
             return null;
     }
@@ -47,14 +49,17 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
     @Override
     protected void onPostExecute(String message) {
         mProgress.dismiss();
-        mCallback.OnTaskCompleted(message);
+        mCallback.OnVerifyTaskCompleted(message);
     }
 
     private ProgressDialog CreateProgress() {
         ProgressDialog cProgress = new ProgressDialog(mContext);
         try {
             String msg = "Please wait...";
-
+            String title = "Setting Pin";
+            SpannableString ss1 = new SpannableString(title);
+            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
+            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
             SpannableString ss2 = new SpannableString(msg);
             ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
             ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
@@ -69,12 +74,13 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
         }
     }
 
-    private String getServerInfo(String number) {
+    private String getServerInfo(PinInfo info) {
+        Gson gson = new Gson();
+        String PinString = gson.toJson(info);
         String result = "";
         URI uri;
         try {
-            //Connect
-            uri = new URI("http://gabsti.azurewebsites.net/api/Otp");
+            uri = new URI("http://gabsti.azurewebsites.net/api/VerifyPin");
             HttpURLConnection urlConnection = (HttpURLConnection) uri.toURL().openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -85,7 +91,7 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
             OutputStream outputStream = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             //Call parserUsuarioJson() inside write(),Make sure it is returning proper json string .
-            writer.write(number.toString());
+            writer.write(PinString.toString());
             writer.close();
             outputStream.close();
 

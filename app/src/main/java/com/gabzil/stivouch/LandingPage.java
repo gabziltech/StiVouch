@@ -24,8 +24,12 @@ public class LandingPage extends Activity {
             Intent i = null;
             if (select.get(0).getOTP().equals("Yes")) {
                 i = new Intent(LandingPage.this,MobileRegistration.class);
+            } else if (select.get(0).getPin().equals("Yes")) {
+                    i = new Intent(LandingPage.this,SetPin.class);
+                    i.putExtra("key", 0);
             } else if (select.get(0).getLogin().equals("Yes")) {
-                i = new Intent(LandingPage.this,UserSelection.class);
+                i = new Intent(LandingPage.this,SetPin.class);
+                i.putExtra("key", 1);
             } else {
                 i = new Intent(LandingPage.this,LandingPage.class);
             }

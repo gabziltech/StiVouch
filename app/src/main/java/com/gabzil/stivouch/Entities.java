@@ -9,6 +9,7 @@ public class Entities {
     String OTPNo;
     String OTP;
     String Login;
+    String Pin;
 
     public int getID() {
         return ID;
@@ -49,4 +50,13 @@ public class Entities {
     public void setLogin(String login) {
         Login = login;
     }
+
+    public String getPin() {
+        return Pin;
+    }
+
+    public void setPin(String pin) {
+        Pin = pin;
+    }
+
 }
