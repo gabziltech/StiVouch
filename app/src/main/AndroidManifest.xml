@@ -30,25 +30,26 @@
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
+            android:name=".SetPin" android:noHistory="true"
+            android:label="@string/title_activity_set_pin"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+        <activity
             android:name=".UserSelection" android:noHistory="true"
             android:label="@string/title_activity_user_selection" >
         </activity>
         <activity
-            android:name=".LoginVoucher" android:noHistory="true"
+            android:name=".Login" android:noHistory="true"
             android:label="@string/title_activity_login_voucher" >
         </activity>
         <activity
-            android:name=".SignupVoucher"
-            android:label="@string/title_activity_signup_voucher" >
+            android:name=".SignupVoucher" android:noHistory="true"
+            android:label="@string/title_activity_signup_voucher"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".SignupOTp"
             android:label="@string/title_activity_signup_otp" >
-        </activity>
-        <activity
-            android:name=".SetPin" android:noHistory="true"
-            android:label="@string/title_activity_set_pin"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
     </application>
 

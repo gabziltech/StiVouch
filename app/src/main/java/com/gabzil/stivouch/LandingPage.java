@@ -16,7 +16,12 @@ public class LandingPage extends Activity {
 
         MyOpenHelper m = new MyOpenHelper(getApplicationContext());
         List<Entities> select = m.getSelections();
-        if (select.size() == 0) {
+        Bundle b = getIntent().getExtras();
+        int value = -1; // or other values
+        if(b != null)
+            value = b.getInt("key1");
+
+        if (select.size() == 0 || value == 0) {
             mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardview, R.xml.hexkbd);
             mCustomKeyboard.registerEditText(R.id.mobileno);
         }

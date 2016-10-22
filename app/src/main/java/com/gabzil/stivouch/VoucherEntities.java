@@ -6,13 +6,14 @@ package com.gabzil.stivouch;
 public class VoucherEntities {
     int VoucherID;
     String VoucherName;
-    String VoucherMail;
+    String UserName;
+    String Password;
     String DOB;
     String MobileNo;
+    String City;
     String State;
-    String Country;
-    String Password;
-    String CompanyName;
+    String EMailID;
+    String ComapnyName;
     int CompanyID;
 
     public int getVoucherID() {
@@ -31,12 +32,20 @@ public class VoucherEntities {
         VoucherName = voucherName;
     }
 
-    public String getVoucherMail() {
-        return VoucherMail;
+    public String getUserName() {
+        return UserName;
     }
 
-    public void setVoucherMail(String voucherMail) {
-        VoucherMail = voucherMail;
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 
     public String getDOB() {
@@ -55,6 +64,14 @@ public class VoucherEntities {
         MobileNo = mobileNo;
     }
 
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
+    }
+
     public String getState() {
         return State;
     }
@@ -63,28 +80,20 @@ public class VoucherEntities {
         State = state;
     }
 
-    public String getCountry() {
-        return Country;
+    public String getEMailID() {
+        return EMailID;
     }
 
-    public void setCountry(String country) {
-        Country = country;
+    public void setEMailID(String EMailID) {
+        this.EMailID = EMailID;
     }
 
-    public String getPassword() {
-        return Password;
+    public String getComapnyName() {
+        return ComapnyName;
     }
 
-    public void setPassword(String password) {
-        Password = password;
-    }
-
-    public String getCompanyName() {
-        return CompanyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        CompanyName = companyName;
+    public void setComapnyName(String comapnyName) {
+        ComapnyName = comapnyName;
     }
 
     public int getCompanyID() {

@@ -18,7 +18,7 @@ public class UserSelection extends Activity {
         voucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserSelection.this, LoginVoucher.class);
+                Intent intent = new Intent(UserSelection.this, Login.class);
                 startActivity(intent);
             }
         });
@@ -26,7 +26,8 @@ public class UserSelection extends Activity {
         merchant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(UserSelection.this, Login.class);
+                startActivity(intent);
             }
         });
 

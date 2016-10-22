@@ -9,20 +9,28 @@
     <string name="title_activity_login_voucher">LoginVoucher</string>
     <string name="title_activity_signup_voucher">SignupVoucher</string>
 
+    <string-array name="city_arrays">
+        <item>Select</item>
+        <item>Pune</item>
+        <item>Mumbai</item>
+        <item>Nagpur</item>
+        <item>Latur</item>
+    </string-array>
+
     <string-array name="state_arrays">
-        <item>Select State</item>
+        <item>Select</item>
         <item>Maharashtra</item>
         <item>Gujrat</item>
         <item>UtarPradesh</item>
         <item>Zarkhand</item>
         <item>Rajastand</item>
         <item>Goa</item>
-        <item>Channi</item>
-        <item>Hyderabad</item>
+        <item>Chennai</item>
+        <item>Hydrabad</item>
     </string-array>
 
     <string-array name="country_arrays">
-        <item>Select Country</item>
+        <item>Select</item>
         <item>India</item>
         <item>Malaysia</item>
         <item>United States</item>
@@ -36,6 +44,7 @@
 
     <string name="LandingQuote">“Time is Money join us, We will Help you to save both”</string>
     <string name="PinQuote">Set your Secret Pin \nYour PIN helps your \naccount secure</string>
+    <string name="SelectionQuote">“Time is Money\n join us, We will\n Help you to save both”</string>
     <string name="title_activity_set_pin">SetPin</string>
 
 </resources>

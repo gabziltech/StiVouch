@@ -62,17 +62,11 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Entities e = new Entities();
-                e.setMobileNo(MobileNo);
-                e.setOTP("No");
-                e.setPin("No");
-                e.setLogin("No");
                 DataHelp dh = new DataHelp(getApplicationContext());
-                if (dh.UpdateSelection(e)) {
-                    Intent i = new Intent(SetPin.this, LandingPage.class);
-                    i.putExtra("key1", 0);
-                    startActivity(i);
-                }
+                dh.DeleteSelection();
+                Intent i = new Intent(SetPin.this, LandingPage.class);
+                i.putExtra("key1", 0);
+                startActivity(i);
             }
         });
     }
@@ -180,11 +174,11 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
                     e.setLogin("Yes");
                     DataHelp dh = new DataHelp(getApplicationContext());
                     if (dh.UpdateSelection(e)) {
-                        Intent i = new Intent(SetPin.this, LoginVoucher.class);
+                        Intent i = new Intent(SetPin.this, UserSelection.class);
                         startActivity(i);
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Pin", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
@@ -196,6 +190,19 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
 
     @Override
     public void OnVerifyTaskCompleted(String results) {
-
+        try {
+            if (results != "null" && results.length() > 0) {
+                if (results.equals("true")) {
+                    Intent i = new Intent(SetPin.this, UserSelection.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Wrong Pin", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -3,187 +3,273 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context="com.gabzil.stivouch.SignupVoucher">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="User Name" />
-
-            <EditText
-                android:id="@+id/vusername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/curve"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Email" />
-
-            <EditText
-                android:id="@+id/vuseremail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/curve"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="DOB" />
-
-            <TextView
-                android:id="@+id/vdob"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/curve"/>
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/vouchername"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/curve"
+                        android:hint="Name"
+                        android:padding ="2dp" />
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Mobile No" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Username"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-            <EditText
-                android:id="@+id/vmobileno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="10"
-                android:background="@drawable/curve"/>
+                    <EditText
+                        android:id="@+id/v_username"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:padding ="2dp" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Password"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/v_pass"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:padding ="2dp"
+                        android:inputType="textPassword" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="State" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Confirm Password"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-            <Spinner
-                android:id="@+id/vstate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:entries="@array/state_arrays" />
+                    <EditText
+                        android:id="@+id/v_cnfrmpass"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:padding ="2dp"
+                        android:inputType="textPassword" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Country" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="DOB"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-            <Spinner
-                android:id="@+id/vcounty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:entries="@array/country_arrays" />
+                    <TextView
+                        android:id="@+id/v_dob"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:padding="2dp" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Mobile No"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/v_mobileno"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:inputType="number"
+                        android:maxLength="10"/>
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Password" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomerTextView"
+                        android:text="City" />
 
-            <EditText
-                android:id="@+id/vpassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:background="@drawable/curve"/>
+                    <Spinner
+                        android:id="@+id/v_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:entries="@array/city_arrays"
+                        android:padding ="2dp" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomerTextView"
+                        android:text="State" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:text="Other Info"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+                    <Spinner
+                        android:id="@+id/v_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:entries="@array/state_arrays"
+                        android:padding ="2dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="E-mail ID"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Company Name" />
+                    <EditText
+                        android:id="@+id/v_mail_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:padding ="2dp" />
 
-            <EditText
-                android:id="@+id/vcompanyname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                </LinearLayout>
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#FF8A65"
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:text="Other Info"
+                        android:textColor="#323333"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Company ID" />
+                    <Button
+                        android:id="@+id/addinfobtn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@mipmap/ic_dropdown" />
 
-            <EditText
-                android:id="@+id/vcompanyid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
+                </RelativeLayout>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Company Name"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
 
-        <Button
-            android:id="@+id/vsubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="OK" />
+                <EditText
+                    android:id="@+id/v_companyname"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve"
+                    android:padding ="2dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Company ID"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/v_companyid"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve"
+                    android:inputType="number"
+                    android:padding ="2dp" />
+
+                <Button
+                    android:id="@+id/v_registration"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#38C3F3"
+                    android:text="Create Account"
+                    android:textSize="15dp"
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<ListView-->
+                <!--android:id="@+id/contactlist"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:dividerHeight="2dp"-->
+                <!--android:padding="5dp"-->
+                <!--android:visibility="gone">-->
+            <!--</ListView>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/msg"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="No contact number"-->
+                <!--android:textSize="18dp"-->
+                <!--android:textStyle="bold|italic"></TextView>-->
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 

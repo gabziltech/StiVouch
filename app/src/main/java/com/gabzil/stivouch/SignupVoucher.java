@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +23,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
-    private EditText vouchername,vouchermail,vouchermobileno,voucherpassword,vouchercompany,vouchercompanyID;
-    private TextView voucherdob;
-    private Button submit;
-    private Spinner voucherstate,vouchercountry;
+    EditText Vouchername, Username, Password, ConfirmPassword, MobileNo, EMailID, CompanyName, CompanyID;
+    Spinner City, State;
+    Button CreateAccount;
+    VoucherEntities MainVoucher;
+    TextView DOB;
     Calendar myCalendar;
-    VoucherEntities MainVoucher = new VoucherEntities();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,66 +36,31 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         setContentView(R.layout.signup_voucher);
 
         DeclareCustomerVariables();
-
-        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        voucherdob.setText(currentDateTimeString.substring(0,12));
-        voucherdob.setOnClickListener(new View.OnClickListener() {
+        SimpleDateFormat myFormat = new SimpleDateFormat("mm/dd/yyyy");
+        String currentDateTimeString = myFormat.format(new Date());
+        DOB.setText(currentDateTimeString.substring(0, 10));
+        DOB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SetDate();
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        CreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCustInformation();
+                setVoucherInfo();
                 if (!IsValidation()) {
-                    SaveCustomerData();
+                    SaveVoucherData();
                 }
             }
         });
     }
 
-    public void DeclareCustomerVariables(){
-        vouchername=(EditText)findViewById(R.id.vusername);
-        vouchermail=(EditText)findViewById(R.id.vuseremail);
-        voucherdob=(TextView)findViewById(R.id.vdob);
-        vouchermobileno=(EditText)findViewById(R.id.vmobileno);
-        voucherstate=(Spinner)findViewById(R.id.vstate);
-        vouchercountry=(Spinner)findViewById(R.id.vcounty);
-        voucherpassword=(EditText)findViewById(R.id.vpassword);
-        vouchercompany=(EditText)findViewById(R.id.vcompanyname);
-        vouchercompanyID=(EditText)findViewById(R.id.vcompanyid);
-        submit=(Button)findViewById(R.id.vsubmit);
-        myCalendar = Calendar.getInstance();
-    }
-
-    private void SaveCustomerData() {
-        final SubmitVoucher p = new SubmitVoucher(getApplicationContext(), this);
-        p.execute(MainVoucher);
-//        new Handler().postDelayed(new Runnable() {
-//            public void run() {
-//                if (p.getStatus() == AsyncTask.Status.RUNNING) {
-//                    // My AsyncTask is currently doing work in doInBackground()
-//                    p.cancel(true);
-//                    p.mProgress.dismiss();
-//                    Toast.makeText(getApplicationContext(), "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }, 1000 * 30);
-    }
-
     public void SetDate() {
-        try {
-            new DatePickerDialog(getApplicationContext(), date1, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        }
-        catch (Exception e) {
-            e.getMessage();
-        }
+        new DatePickerDialog(this, date1, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     DatePickerDialog.OnDateSetListener date1 = new DatePickerDialog.OnDateSetListener() {
@@ -112,62 +78,92 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
 
     private void updateLabel() {
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
-        voucherdob.setText(df.format(myCalendar.getTime()));
+        DOB.setText(df.format(myCalendar.getTime()));
     }
 
-    public void setCustInformation(){
-        MainVoucher.setVoucherName(vouchername.getText().toString().trim());
-        MainVoucher.setVoucherMail(vouchermail.getText().toString().trim());
-        MainVoucher.setDOB(voucherdob.getText().toString().trim());
-        MainVoucher.setMobileNo(vouchermobileno.getText().toString().trim());
-        MainVoucher.setState(voucherstate.getSelectedItem().toString().trim());
-        MainVoucher.setCountry(vouchercountry.getSelectedItem().toString().trim());
-        MainVoucher.setPassword(voucherpassword.getText().toString().trim());
-        MainVoucher.setCompanyName(vouchercompany.getText().toString().trim());
-        MainVoucher.setCompanyID(Integer.parseInt(vouchercompanyID.getText().toString().trim()));
+    public void DeclareCustomerVariables() {
+        Vouchername = (EditText) findViewById(R.id.vouchername);
+        Username = (EditText) findViewById(R.id.v_username);
+        Password = (EditText) findViewById(R.id.v_pass);
+        ConfirmPassword = (EditText) findViewById(R.id.v_cnfrmpass);
+        DOB = (TextView) findViewById(R.id.v_dob);
+        MobileNo = (EditText) findViewById(R.id.v_mobileno);
+        EMailID = (EditText) findViewById(R.id.v_mail_id);
+        CompanyName = (EditText) findViewById(R.id.v_companyname);
+        CompanyID = (EditText) findViewById(R.id.v_companyid);
+        City = (Spinner) findViewById(R.id.v_city);
+        State = (Spinner) findViewById(R.id.v_state);
+        CreateAccount = (Button) findViewById(R.id.v_registration);
+        myCalendar = Calendar.getInstance();
+        MainVoucher = new VoucherEntities();
+    }
+
+    public void setVoucherInfo() {
+        try {
+            MainVoucher.setVoucherName(Vouchername.getText().toString().trim());
+            MainVoucher.setUserName(Username.getText().toString().trim());
+            MainVoucher.setPassword(Password.getText().toString().trim());
+            MainVoucher.setDOB(DOB.getText().toString().trim());
+            MainVoucher.setMobileNo(MobileNo.getText().toString().trim());
+            MainVoucher.setCity(City.getSelectedItem().toString().trim());
+            MainVoucher.setState(State.getSelectedItem().toString().trim());
+            MainVoucher.setEMailID(EMailID.getText().toString().trim());
+            MainVoucher.setComapnyName(CompanyName.getText().toString().trim());
+            MainVoucher.setCompanyID(Integer.parseInt(CompanyID.getText().toString().trim()));
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     private boolean IsValidation() {
         boolean error = false;
         String strmsg = "Please Enter ";
 
-        if (MainVoucher.getVoucherName().trim().length() == 0) {
+        if (MainVoucher.getVoucherName().length() == 0) {
             strmsg += "Voucher Name";
             error = true;
         }
-        if (MainVoucher.getVoucherMail().trim().length() == 0) {
-            strmsg += ", Mail ID";
-            error = true;
-        } else if(!isValidEmail(MainVoucher.getVoucherMail().trim())) {
-            strmsg += ", Valid Mail ID";
+        if (MainVoucher.getUserName().length() == 0) {
+            strmsg += ", Username";
             error = true;
         }
-        if (MainVoucher.getDOB().trim().length() == 0) {
+        if (MainVoucher.getPassword().length() == 0) {
+            strmsg += ", Password";
+            error = true;
+        } else if (MainVoucher.getPassword().length() < 6) {
+            strmsg += ", Password of minimum 6 characters";
+            error = true;
+        } else if (ConfirmPassword.getText().toString().trim().length() == 0) {
+            strmsg += ", Confirm Password";
+            error = true;
+        } else if (!MainVoucher.getPassword().equals(ConfirmPassword.getText().toString().trim())) {
+            strmsg += ", Password & Confirm Password Same";
+            error = true;
+        }
+        if (MainVoucher.getDOB().length() == 0) {
             strmsg += ", DOB";
             error = true;
         }
-        if (MainVoucher.getMobileNo().trim().length() == 0) {
+        if (MainVoucher.getMobileNo().length() == 0) {
             strmsg += ", Mobile No";
             error = true;
+        } else if (MainVoucher.getMobileNo().length() < 10) {
+            strmsg += ", 10 digit Mobile No";
+            error = true;
         }
-        if (voucherstate.getSelectedItem().toString().equals("Select State")) {
+        if (City.getSelectedItem().toString().equals("Select")) {
+            strmsg += ", City";
+            error = true;
+        }
+        if (State.getSelectedItem().toString().equals("Select")) {
             strmsg += ", State";
             error = true;
         }
-        if (vouchercountry.getSelectedItem().toString().equals("Select Country")) {
-            strmsg += ", Country";
+        if (MainVoucher.getEMailID().length() == 0) {
+            strmsg += ", Email ID";
             error = true;
-        }
-        if (MainVoucher.getPassword().trim().length() == 0) {
-            strmsg += ", Password";
-            error = true;
-        }
-        if (MainVoucher.getCompanyName().trim().length() == 0) {
-            strmsg += ", Company Name";
-            error = true;
-        }
-        if (vouchercompanyID.getText().toString().trim().length() == 0) {
-            strmsg += ", Company ID";
+        } else if (!isValidEmail(MainVoucher.getEMailID())) {
+            strmsg += ", Valid Email ID";
             error = true;
         }
 
@@ -187,7 +183,23 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         return matcher.matches();
     }
 
-    public void ShowAlert(String msg){
+    private void SaveVoucherData() {
+        SubmitVoucher p = new SubmitVoucher(SignupVoucher.this, this);
+        p.execute(MainVoucher);
+//        new Handler().postDelayed(new Runnable() {
+//            public void run() {
+//                if (p.getStatus() == AsyncTask.Status.RUNNING) {
+//                    // My AsyncTask is currently doing work in doInBackground()
+//                    p.cancel(true);
+//                    p.mProgress.dismiss();
+//                    Toast.makeText(getActivity(), "Network Problem, Please try again", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }, 1000 * 30);
+    }
+
+
+    public void ShowAlert(String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(msg);
 
@@ -203,6 +215,20 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
 
     @Override
     public void OnVoucherTaskCompleted(String results) {
-        Toast.makeText(getApplicationContext(), "Successs", Toast.LENGTH_SHORT).show();
+        try {
+            if (results != "null" && results.length() > 0) {
+                if (results.equals("true")) {
+                        Intent i = new Intent(SignupVoucher.this, Login.class);
+                        startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -95,7 +95,11 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
 
     private boolean IsValidation() {
         boolean error = false;
-        if (OtpNumber.getText().toString().trim().length() < 4) {
+
+        if (OtpNumber.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please enter OTP", Toast.LENGTH_SHORT).show();
+            error = true;
+        } else if (OtpNumber.getText().toString().trim().length() < 4) {
             Toast.makeText(getApplicationContext(), "Please enter 4 digits OTP", Toast.LENGTH_SHORT).show();
             error = true;
         }

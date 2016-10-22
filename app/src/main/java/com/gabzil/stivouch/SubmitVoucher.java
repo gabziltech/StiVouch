@@ -65,16 +65,16 @@ public class SubmitVoucher extends AsyncTask<Object, String, String> {
         ProgressDialog cProgress = new ProgressDialog(mContext);
         try {
             String msg = "Please wait...";
-//            String title = "Connecting to Internet";
-//            SpannableString ss1 = new SpannableString(title);
-//            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
-//            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
+            String title = "Information Saving";
+            SpannableString ss1 = new SpannableString(title);
+            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
+            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
 
             SpannableString ss2 = new SpannableString(msg);
             ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
             ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
 
-            cProgress.setTitle(null);
+            cProgress.setTitle(title);
             cProgress.setMessage(ss2);
             cProgress.setCanceledOnTouchOutside(false);
 
