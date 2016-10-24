@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,17 +20,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
+public class SignupVoucher extends Activity implements AdapterView.OnItemSelectedListener,OnVoucherTaskCompleted {
     EditText Vouchername, Username, Password, ConfirmPassword, MobileNo, EMailID, CompanyName, CompanyID;
     Spinner City, State;
     Button CreateAccount;
     VoucherEntities MainVoucher;
     TextView DOB;
     Calendar myCalendar;
+    MyOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,13 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         setContentView(R.layout.signup_voucher);
 
         DeclareCustomerVariables();
+
+        // Spinner click listener
+        City.setOnItemSelectedListener(this);
+
+        // Loading spinner data from database
+        loadSpinnerData();
+
         SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
         String currentDateTimeString = myFormat.format(new Date());
         DOB.setText(currentDateTimeString.substring(0, 12));
@@ -55,6 +66,32 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
                 }
             }
         });
+    }
+
+    private void loadSpinnerData() {
+        List<String> cities = db.getAllCity();
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, cities);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        City.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        String label = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "You selected: " + label,
+                Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+
     }
 
     public void SetDate() {
@@ -96,6 +133,7 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         CreateAccount = (Button) findViewById(R.id.v_registration);
         myCalendar = Calendar.getInstance();
         MainVoucher = new VoucherEntities();
+        db = new MyOpenHelper(getApplicationContext());
     }
 
     public void setVoucherInfo() {
@@ -184,8 +222,17 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
     }
 
     private void SaveVoucherData() {
-        SubmitVoucher p = new SubmitVoucher(SignupVoucher.this, this);
-        p.execute(MainVoucher);
+        try {
+            List<CityEntities> cities = db.getAllCities();
+            CityEntities city = db.getCityByName(MainVoucher.getCity());
+            MainVoucher.setCityID(city.CityID);
+            StateEntities state = db.getStateByName(MainVoucher.getCity());
+            MainVoucher.setStateID(state.StateID);
+            SubmitVoucher p = new SubmitVoucher(SignupVoucher.this, this);
+            p.execute(MainVoucher);
+        } catch (Exception e) {
+            e.getMessage();
+        }
 //        new Handler().postDelayed(new Runnable() {
 //            public void run() {
 //                if (p.getStatus() == AsyncTask.Status.RUNNING) {
@@ -197,7 +244,6 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
 //            }
 //        }, 1000 * 30);
     }
-
 
     public void ShowAlert(String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -229,6 +275,6 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-
     }
+
 }

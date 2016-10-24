@@ -10,7 +10,9 @@ public class VoucherEntities {
     String Password;
     String DOB;
     String MobileNo;
+    int CityID;
     String City;
+    int StateID;
     String State;
     String EMailID;
     String CompanyName;
@@ -64,12 +66,28 @@ public class VoucherEntities {
         MobileNo = mobileNo;
     }
 
+    public int getCityID() {
+        return CityID;
+    }
+
+    public void setCityID(int cityID) {
+        CityID = cityID;
+    }
+
     public String getCity() {
         return City;
     }
 
     public void setCity(String city) {
         City = city;
+    }
+
+    public int getStateID() {
+        return StateID;
+    }
+
+    public void setStateID(int stateID) {
+        StateID = stateID;
     }
 
     public String getState() {

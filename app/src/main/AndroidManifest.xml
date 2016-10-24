@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LandingPage" android:noHistory="true"
+            android:name=".Login" android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
             android:label="@string/title_activity_user_selection" >
         </activity>
         <activity
-            android:name=".Login" android:noHistory="true"
+            android:name=".LandingPage" android:noHistory="true"
             android:label="@string/title_activity_login_voucher" >
         </activity>
         <activity

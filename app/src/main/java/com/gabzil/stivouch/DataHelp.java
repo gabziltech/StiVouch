@@ -43,6 +43,42 @@ public class DataHelp {
         db.delete(MyOpenHelper.TABLE_NAME, null, null);
     }
 
+    public Boolean SubmitCities(CityEntities e) {
+        try {
+            ContentValues conV = new ContentValues();
+            conV.put("CityID", e.getCityID());
+            conV.put("CityName", e.getCity());
+            CityEntities city = db1.getCityByID(e.getCityID());
+            if (city == null) {
+                db.insert(MyOpenHelper.TABLE_NAME1, null, conV);
+            } else {
+                String where = "CityID=" + e.getCityID();
+                db.update(MyOpenHelper.TABLE_NAME1, conV, where, null);
+            }
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public Boolean SubmitStates(StateEntities e) {
+        try {
+            ContentValues conV = new ContentValues();
+            conV.put("StateID", e.getStateID());
+            conV.put("StateName", e.getState());
+            StateEntities city = db1.getStateByID(e.getStateID());
+            if (city == null) {
+                db.insert(MyOpenHelper.TABLE_NAME2, null, conV);
+            } else {
+                String where = "StateID=" + e.getStateID();
+                db.update(MyOpenHelper.TABLE_NAME2, conV, where, null);
+            }
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public void dbClose(SQLiteDatabase db) {
         db.close();
     }
