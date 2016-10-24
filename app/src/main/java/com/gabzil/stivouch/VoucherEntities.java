@@ -13,7 +13,7 @@ public class VoucherEntities {
     String City;
     String State;
     String EMailID;
-    String ComapnyName;
+    String CompanyName;
     int CompanyID;
 
     public int getVoucherID() {
@@ -88,12 +88,12 @@ public class VoucherEntities {
         this.EMailID = EMailID;
     }
 
-    public String getComapnyName() {
-        return ComapnyName;
+    public String getCompanyName() {
+        return CompanyName;
     }
 
-    public void setComapnyName(String comapnyName) {
-        ComapnyName = comapnyName;
+    public void setCompanyName(String companyName) {
+        CompanyName = companyName;
     }
 
     public int getCompanyID() {

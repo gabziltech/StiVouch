@@ -36,9 +36,9 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         setContentView(R.layout.signup_voucher);
 
         DeclareCustomerVariables();
-        SimpleDateFormat myFormat = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
         String currentDateTimeString = myFormat.format(new Date());
-        DOB.setText(currentDateTimeString.substring(0, 10));
+        DOB.setText(currentDateTimeString.substring(0, 12));
         DOB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +108,7 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
             MainVoucher.setCity(City.getSelectedItem().toString().trim());
             MainVoucher.setState(State.getSelectedItem().toString().trim());
             MainVoucher.setEMailID(EMailID.getText().toString().trim());
-            MainVoucher.setComapnyName(CompanyName.getText().toString().trim());
+            MainVoucher.setCompanyName(CompanyName.getText().toString().trim());
             MainVoucher.setCompanyID(Integer.parseInt(CompanyID.getText().toString().trim()));
         } catch (Exception e) {
             e.getMessage();
