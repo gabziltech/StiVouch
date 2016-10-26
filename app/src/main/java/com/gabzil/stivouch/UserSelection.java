@@ -19,6 +19,7 @@ public class UserSelection extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserSelection.this, Login.class);
+                intent.putExtra("User", "Voucher");
                 startActivity(intent);
             }
         });
@@ -27,6 +28,7 @@ public class UserSelection extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserSelection.this, Login.class);
+                intent.putExtra("User", "Merchant");
                 startActivity(intent);
             }
         });

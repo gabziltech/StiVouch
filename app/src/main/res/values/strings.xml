@@ -8,6 +8,7 @@
     <string name="title_activity_user_selection">UserSelection</string>
     <string name="title_activity_login_voucher">LoginVoucher</string>
     <string name="title_activity_signup_voucher">SignupVoucher</string>
+    <string name="title_activity_signup_merchant">SignupMerchant</string>
 
     <string-array name="city_arrays">
         <item>Select</item>

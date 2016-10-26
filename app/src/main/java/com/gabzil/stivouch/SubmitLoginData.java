@@ -8,6 +8,8 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -19,12 +21,12 @@ import java.net.URI;
 /**
  * Created by Yogesh on 3/17/2016.
  */
-public class CitiesAndStates extends AsyncTask<Object, String, String> {
+public class SubmitLoginData extends AsyncTask<Object, String, String> {
     private Context mContext;
     ProgressDialog mProgress;
-    private OnCityTaskCompleted mCallback;
+    private OnLoginTaskCompleted mCallback;
 
-    public CitiesAndStates(Context context, OnCityTaskCompleted listner) {
+    public SubmitLoginData(Context context, OnLoginTaskCompleted listner) {
         this.mContext = context;
         this.mCallback = listner;
     }
@@ -43,7 +45,8 @@ public class CitiesAndStates extends AsyncTask<Object, String, String> {
     protected String doInBackground(Object[] params) {
         try {
             if (!isCancelled()) {
-                return getServerInfo();
+                LoginEntities voucher = (LoginEntities) params[0];
+                return getServerInfo(voucher);
             } else
                 return null;
         } catch (Exception e) {
@@ -54,28 +57,24 @@ public class CitiesAndStates extends AsyncTask<Object, String, String> {
 
     @Override
     protected void onPostExecute(String message) {
-        try {
-            mProgress.dismiss();
-            mCallback.OnCityTaskCompleted(message);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        mProgress.dismiss();
+        mCallback.OnLoginTaskCompleted(message);
     }
 
     private ProgressDialog CreateProgress() {
         ProgressDialog cProgress = new ProgressDialog(mContext);
         try {
             String msg = "Please wait...";
-//            String title = "Information Saving";
-//            SpannableString ss1 = new SpannableString(title);
-//            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
-//            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
+            String title = "Information Saving";
+            SpannableString ss1 = new SpannableString(title);
+            ss1.setSpan(new RelativeSizeSpan(2f), 0, ss1.length(), 0);
+            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, ss1.length(), 0);
 
             SpannableString ss2 = new SpannableString(msg);
             ss2.setSpan(new RelativeSizeSpan(2f), 0, ss2.length(), 0);
             ss2.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss2.length(), 0);
 
-            cProgress.setTitle(null);
+            cProgress.setTitle(title);
             cProgress.setMessage(ss2);
             cProgress.setCanceledOnTouchOutside(false);
 
@@ -85,11 +84,13 @@ public class CitiesAndStates extends AsyncTask<Object, String, String> {
         }
     }
 
-    private String getServerInfo() {
+    private String getServerInfo(LoginEntities login) {
+        Gson gson = new Gson();
+        String LoginString = gson.toJson(login);
         String result = "";
         URI uri;
         try {
-            uri = new URI("http://gabsti.azurewebsites.net/api/CityApi");
+            uri = new URI("http://gabsti.azurewebsites.net/api/UserLogin");
             HttpURLConnection urlConnection = (HttpURLConnection) uri.toURL().openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -99,6 +100,8 @@ public class CitiesAndStates extends AsyncTask<Object, String, String> {
             //Write
             OutputStream outputStream = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            //Call parserUsuarioJson() inside write(),Make sure it is returning proper json string .
+            writer.write(LoginString.toString());
             writer.close();
             outputStream.close();
 
@@ -110,10 +113,10 @@ public class CitiesAndStates extends AsyncTask<Object, String, String> {
                 sb.append(line);
             }
             bufferedReader.close();
-            result = sb.toString().replace("\"[","[").replace("]\"","]");
+            result = sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "[{\"CityID\":1,\"City\":\" Select\"},{\"CityID\":2,\"City\":\"Ahmednagar\"},{\"CityID\":3,\"City\":\"Akola\"},{\"CityID\":4,\"City\":\"Aurangabad\"},{\"CityID\":5,\"City\":\"Dhule\"},{\"CityID\":6,\"City\":\"Jalgaon\"},{\"CityID\":7,\"City\":\"Kolhapur\"},{\"CityID\":8,\"City\":\"Mumbai\"},{\"CityID\":9,\"City\":\"Nagpur\"},{\"CityID\":10,\"City\":\"Nandurbar\"},{\"CityID\":11,\"City\":\"Nashik\"},{\"CityID\":12,\"City\":\"Pune\"},{\"CityID\":13,\"City\":\"Thane\"},{\"StatesID\":1,\"States\":\" Select\"},{\"StatesID\":2,\"States\":\"Assam\"},{\"StatesID\":3,\"States\":\"Bihar\"},{\"StatesID\":4,\"States\":\"Delhi\"},{\"StatesID\":5,\"States\":\"Goa\"},{\"StatesID\":6,\"States\":\"Gujarat\"},{\"StatesID\":7,\"States\":\"Kerala\"},{\"StatesID\":8,\"States\":\"Madhya Pradesh\"},{\"StatesID\":9,\"States\":\"Maharashtra\"},{\"StatesID\":10,\"States\":\"Punjab\"},{\"StatesID\":11,\"States\":\"Rajasthan\"}]";
+        return result;
     }
 }

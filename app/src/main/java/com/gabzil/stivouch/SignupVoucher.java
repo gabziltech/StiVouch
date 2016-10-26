@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,7 +24,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignupVoucher extends Activity implements AdapterView.OnItemSelectedListener,OnVoucherTaskCompleted {
+public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
     EditText Vouchername, Username, Password, ConfirmPassword, MobileNo, EMailID, CompanyName, CompanyID;
     Spinner City, State;
     Button CreateAccount;
@@ -40,12 +39,12 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         setContentView(R.layout.signup_voucher);
 
         DeclareCustomerVariables();
+        Username.addTextChangedListener(new MyTextWatcher(Username));
+        Password.addTextChangedListener(new MyTextWatcher(Password));
+        ConfirmPassword.addTextChangedListener(new MyTextWatcher(ConfirmPassword));
 
-        // Spinner click listener
-        City.setOnItemSelectedListener(this);
-
-        // Loading spinner data from database
-        loadSpinnerData();
+        loadCityData();
+        loadStateData();
 
         SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
         String currentDateTimeString = myFormat.format(new Date());
@@ -68,7 +67,7 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         });
     }
 
-    private void loadSpinnerData() {
+    private void loadCityData() {
         List<String> cities = db.getAllCity();
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -77,21 +76,13 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         City.setAdapter(dataAdapter);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
-        String label = parent.getItemAtPosition(position).toString();
+    private void loadStateData() {
+        List<String> states = db.getAllState();
 
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + label,
-                Toast.LENGTH_LONG).show();
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, states);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        State.setAdapter(dataAdapter);
     }
 
     public void SetDate() {
@@ -144,7 +135,7 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
             MainVoucher.setDOB(DOB.getText().toString().trim());
             MainVoucher.setMobileNo(MobileNo.getText().toString().trim());
             MainVoucher.setCity(City.getSelectedItem().toString().trim());
-            MainVoucher.setState(State.getSelectedItem().toString().trim());
+            MainVoucher.setStates(State.getSelectedItem().toString().trim());
             MainVoucher.setEMailID(EMailID.getText().toString().trim());
             MainVoucher.setCompanyName(CompanyName.getText().toString().trim());
             MainVoucher.setCompanyID(Integer.parseInt(CompanyID.getText().toString().trim()));
@@ -163,6 +154,9 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         }
         if (MainVoucher.getUserName().length() == 0) {
             strmsg += ", Username";
+            error = true;
+        } else if (MainVoucher.getUserName().length() < 6) {
+            strmsg += ", Username of minimum 6 characters";
             error = true;
         }
         if (MainVoucher.getPassword().length() == 0) {
@@ -188,12 +182,15 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         } else if (MainVoucher.getMobileNo().length() < 10) {
             strmsg += ", 10 digit Mobile No";
             error = true;
+        } else if(MainVoucher.getMobileNo().equals("0000000000")) {
+            strmsg += ", Valid Mobile No";
+            error = true;
         }
-        if (City.getSelectedItem().toString().equals("Select")) {
+        if (City.getSelectedItem().toString().trim().equals("Select")) {
             strmsg += ", City";
             error = true;
         }
-        if (State.getSelectedItem().toString().equals("Select")) {
+        if (State.getSelectedItem().toString().trim().equals("Select")) {
             strmsg += ", State";
             error = true;
         }
@@ -223,11 +220,10 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
 
     private void SaveVoucherData() {
         try {
-            List<CityEntities> cities = db.getAllCities();
             CityEntities city = db.getCityByName(MainVoucher.getCity());
             MainVoucher.setCityID(city.CityID);
-            StateEntities state = db.getStateByName(MainVoucher.getCity());
-            MainVoucher.setStateID(state.StateID);
+            StateEntities state = db.getStateByName(MainVoucher.getStates());
+            MainVoucher.setStatesID(state.StatesID);
             SubmitVoucher p = new SubmitVoucher(SignupVoucher.this, this);
             p.execute(MainVoucher);
         } catch (Exception e) {
@@ -264,8 +260,9 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
         try {
             if (results != "null" && results.length() > 0) {
                 if (results.equals("true")) {
-                        Intent i = new Intent(SignupVoucher.this, Login.class);
-                        startActivity(i);
+                    Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(SignupVoucher.this, Login.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
                 }
@@ -273,7 +270,7 @@ public class SignupVoucher extends Activity implements AdapterView.OnItemSelecte
                 Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

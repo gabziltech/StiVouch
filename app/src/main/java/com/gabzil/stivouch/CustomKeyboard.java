@@ -81,6 +81,9 @@ class CustomKeyboard implements OnTaskCompleted {
         if (e.getMobileNo().length() < 10) {
             Toast.makeText(mHostActivity, "Please enter 10 digits mobile number", Toast.LENGTH_SHORT).show();
             error = true;
+        } else if(e.getMobileNo().equals("0000000000")) {
+            Toast.makeText(mHostActivity, "Please enter valid mobile number", Toast.LENGTH_SHORT).show();
+            error = true;
         }
         return error;
     }

@@ -31,8 +31,12 @@ public class SubmitNumber extends AsyncTask<Object, String, String> {
 
     @Override
     public void onPreExecute() {
-        mProgress = CreateProgress();
-        mProgress.show();
+        try {
+            mProgress = CreateProgress();
+            mProgress.show();
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     @Override

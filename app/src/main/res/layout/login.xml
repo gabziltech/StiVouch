@@ -35,7 +35,9 @@
                 android:layout_height="match_parent"
                 android:hint="Username"
                 android:padding="5dp"
-                android:background="@drawable/curve" />
+                android:background="@drawable/curve"
+                android:singleLine="true"
+                android:maxLength="25"/>
 
         </LinearLayout>
 
@@ -57,8 +59,10 @@
                 android:layout_height="match_parent"
                 android:hint="Password"
                 android:padding="5dp"
+                android:singleLine="true"
                 android:background="@drawable/curve"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:maxLength="25"/>
 
         </LinearLayout>
 

@@ -14,6 +14,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "PageSelection";
     public static final String TABLE_NAME1 = "City";
     public static final String TABLE_NAME2 = "State";
+    public static final String TABLE_NAME3="DateDetails";
 
     public MyOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,6 +32,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE State (Id Integer PRIMARY KEY AUTOINCREMENT,StateID Integer,"
                 + "StateName TEXT)");
+
+        db.execSQL("CREATE TABLE DateDetails (ID Integer PRIMARY KEY AUTOINCREMENT,SyncDate TEXT)");
     }
 
     @Override
@@ -39,6 +42,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME1);
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME2);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME3);
         onCreate(db);
         System.out.println("On Upgrade Call");
     }
@@ -173,8 +177,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     state = new StateEntities();
-                    state.setStateID(Integer.parseInt(cursor.getString(1)));
-                    state.setState(cursor.getString(2));
+                    state.setStatesID(Integer.parseInt(cursor.getString(1)));
+                    state.setStates(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e){
@@ -187,7 +191,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public StateEntities getStateByName(String stateName) {
         StateEntities state = null;
         try {
-            String selectQuery = "SELECT  * FROM " + TABLE_NAME2 + " where StateName= "+ stateName;
+            String selectQuery = "SELECT  * FROM " + TABLE_NAME2 + " where StateName = '" +stateName+ "'";
 
             SQLiteDatabase db = this.getWritableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
@@ -195,8 +199,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     state = new StateEntities();
-                    state.setStateID(Integer.parseInt(cursor.getString(1)));
-                    state.setState(cursor.getString(2));
+                    state.setStatesID(Integer.parseInt(cursor.getString(1)));
+                    state.setStates(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e){
@@ -217,8 +221,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     StateEntities e = new StateEntities();
-                    e.setStateID(Integer.parseInt(cursor.getString(1)));
-                    e.setState(cursor.getString(2));
+                    e.setStatesID(Integer.parseInt(cursor.getString(1)));
+                    e.setStates(cursor.getString(2));
 
                     StateList.add(e);
                 } while (cursor.moveToNext());
@@ -230,4 +234,50 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
         return StateList;
     }
+
+    public List<String> getAllState() {
+        List<String> StateList = new ArrayList<String>();
+        try {
+            String selectQuery = "SELECT  * FROM " + TABLE_NAME2;
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    StateList.add(cursor.getString(2));
+                } while (cursor.moveToNext());
+            }
+        }
+        catch (Exception e){
+            e.getMessage();
+        }
+
+        return StateList;
+    }
+
+    public List<DateEntities> getSyncDate() {
+        try{
+            List<DateEntities> contactList = new ArrayList<DateEntities>();
+            String selectQuery = "SELECT  * FROM " + TABLE_NAME3;
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    DateEntities contact = new DateEntities();
+                    contact.setSyncID(Integer.parseInt(cursor.getString(0)));
+                    contact.setSyncDate(cursor.getString(1));
+                    contactList.add(contact);
+                } while (cursor.moveToNext());
+            }
+
+            return contactList;
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
 }

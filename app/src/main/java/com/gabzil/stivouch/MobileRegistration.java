@@ -62,7 +62,7 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                info.setOTPNo(Integer.parseInt(OtpNumber.getText().toString().trim()));
+                setOTPInfo();
                 if(!IsValidation())
                     CallOTPVerification();
             }
@@ -87,6 +87,15 @@ public class MobileRegistration extends Activity implements OnTaskCompleted {
         select = m.getSelections();
         Mobileno = select.get(0).getMobileNo();
     }
+
+    public void setOTPInfo() {
+        try {
+            info.setOTPNo(Integer.parseInt(OtpNumber.getText().toString().trim()));
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
 
     protected void onDestroy() {
         super.onDestroy();

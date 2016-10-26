@@ -26,15 +26,15 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/vouchername"
+                        android:id="@+id/shopname"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/curve"
+                        android:hint="Shop Name"
+                        android:padding ="2dp"
                         android:singleLine="true"
-                        android:maxLength="50"
-                        android:hint="Name"
-                        android:padding ="2dp" />
+                        android:maxLength="50"/>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -46,13 +46,13 @@
                         android:textColor="#000000"/>
 
                     <EditText
-                        android:id="@+id/v_username"
+                        android:id="@+id/m_username"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
-                        android:maxLength="12"
+                        android:padding ="2dp"
                         android:singleLine="true"
-                        android:padding ="2dp" />
+                        android:maxLength="12"/>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -64,14 +64,14 @@
                         android:textColor="#000000"/>
 
                     <EditText
-                        android:id="@+id/v_pass"
+                        android:id="@+id/m_pass"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
                         android:padding ="2dp"
                         android:inputType="textPassword"
-                        android:maxLength="12"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:maxLength="12"/>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -83,33 +83,33 @@
                         android:textColor="#000000"/>
 
                     <EditText
-                        android:id="@+id/v_cnfrmpass"
+                        android:id="@+id/m_cnfrmpass"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
                         android:padding ="2dp"
                         android:inputType="textPassword"
-                        android:maxLength="12"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:maxLength="12"/>
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="DOB"
+                        android:text="Merchant Code"
                         android:textSize="15dp"
                         android:textStyle="bold"
                         android:textColor="#000000"/>
 
-                    <TextView
-                        android:id="@+id/v_dob"
+                    <EditText
+                        android:id="@+id/m_code"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:padding="2dp" />
+                        android:padding ="2dp"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:maxLength="6"/>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -121,7 +121,7 @@
                         android:textColor="#000000"/>
 
                     <EditText
-                        android:id="@+id/v_mobileno"
+                        android:id="@+id/m_mobileno"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
@@ -131,11 +131,29 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Address"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
+
+                    <EditText
+                        android:id="@+id/m_address"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/curve"
+                        android:padding ="2dp"
+                        android:lines="3"
+                        android:maxLength="100"/>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         style="@style/CustomerTextView"
                         android:text="City" />
 
                     <Spinner
-                        android:id="@+id/v_city"
+                        android:id="@+id/m_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
@@ -148,7 +166,7 @@
                         android:text="State" />
 
                     <Spinner
-                        android:id="@+id/v_state"
+                        android:id="@+id/m_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
@@ -164,13 +182,13 @@
                         android:textColor="#000000"/>
 
                     <EditText
-                        android:id="@+id/v_mail_id"
+                        android:id="@+id/m_mail_id"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
                         android:padding ="2dp"
-                        android:maxLength="25"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:maxLength="25"/>
 
                 </LinearLayout>
 
@@ -210,76 +228,110 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Company Name"
+                    android:text="Owner Name"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
 
                 <EditText
-                    android:id="@+id/v_companyname"
+                    android:id="@+id/m_ownername"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/curve"
                     android:padding ="2dp"
-                    android:maxLength="25"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:maxLength="50"/>
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Company ID"
+                    android:text="Owner E-mail ID"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>
 
                 <EditText
-                    android:id="@+id/v_companyid"
+                    android:id="@+id/m_owner_mail_id"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve"
+                    android:padding ="2dp"
+                    android:singleLine="true"
+                    android:maxLength="25"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Owner Mobile No"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/m_owner_mobileno"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/curve"
                     android:inputType="number"
-                    android:padding ="2dp"
-                    android:maxLength="25"
-                    android:singleLine="true"/>
+                    android:maxLength="10"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Branch Code"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/m_branch_code"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve"
+                    android:padding ="2dp" />
 
                 <Button
-                    android:id="@+id/v_registration"
+                    android:id="@+id/m_registration"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#38C3F3"
                     android:text="Create Account"
                     android:textSize="15dp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:singleLine="true"
+                    android:maxLength="6"/>
 
             </LinearLayout>
 
         </ScrollView>
 
         <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:orientation="vertical">-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:orientation="vertical">-->
 
-            <!--<ListView-->
-                <!--android:id="@+id/contactlist"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:dividerHeight="2dp"-->
-                <!--android:padding="5dp"-->
-                <!--android:visibility="gone">-->
-            <!--</ListView>-->
+        <!--<ListView-->
+        <!--android:id="@+id/contactlist"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:dividerHeight="2dp"-->
+        <!--android:padding="5dp"-->
+        <!--android:visibility="gone">-->
+        <!--</ListView>-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/msg"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="No contact number"-->
-                <!--android:textSize="18dp"-->
-                <!--android:textStyle="bold|italic"></TextView>-->
+        <!--<TextView-->
+        <!--android:id="@+id/msg"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="No contact number"-->
+        <!--android:textSize="18dp"-->
+        <!--android:textStyle="bold|italic"></TextView>-->
 
         <!--</LinearLayout>-->
 

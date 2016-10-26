@@ -12,8 +12,8 @@ public class VoucherEntities {
     String MobileNo;
     int CityID;
     String City;
-    int StateID;
-    String State;
+    int StatesID;
+    String States;
     String EMailID;
     String CompanyName;
     int CompanyID;
@@ -82,20 +82,20 @@ public class VoucherEntities {
         City = city;
     }
 
-    public int getStateID() {
-        return StateID;
+    public int getStatesID() {
+        return StatesID;
     }
 
-    public void setStateID(int stateID) {
-        StateID = stateID;
+    public void setStatesID(int statesID) {
+        StatesID = statesID;
     }
 
-    public String getState() {
-        return State;
+    public String getStates() {
+        return States;
     }
 
-    public void setState(String state) {
-        State = state;
+    public void setStates(String states) {
+        States = states;
     }
 
     public String getEMailID() {

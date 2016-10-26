@@ -64,18 +64,29 @@ public class DataHelp {
     public Boolean SubmitStates(StateEntities e) {
         try {
             ContentValues conV = new ContentValues();
-            conV.put("StateID", e.getStateID());
-            conV.put("StateName", e.getState());
-            StateEntities city = db1.getStateByID(e.getStateID());
-            if (city == null) {
+            conV.put("StateID", e.getStatesID());
+            conV.put("StateName", e.getStates());
+            StateEntities state = db1.getStateByID(e.getStatesID());
+            if (state == null) {
                 db.insert(MyOpenHelper.TABLE_NAME2, null, conV);
             } else {
-                String where = "StateID=" + e.getStateID();
+                String where = "StateID=" + e.getStatesID();
                 db.update(MyOpenHelper.TABLE_NAME2, conV, where, null);
             }
             return true;
         } catch (Exception ex) {
             return false;
+        }
+    }
+
+    public void UpdateDate(String syncDate,int id){
+        ContentValues conV = new ContentValues();
+        conV.put("SyncDate", syncDate);
+        if (id == 0)
+            db.insert(MyOpenHelper.TABLE_NAME3, null, conV);
+        else {
+            String where = "Id = " +id;
+            db.update(MyOpenHelper.TABLE_NAME3, conV, where, null);
         }
     }
 

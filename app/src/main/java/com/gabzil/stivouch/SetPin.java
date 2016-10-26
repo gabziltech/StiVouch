@@ -107,6 +107,7 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
     private boolean ValidateData() {
         boolean error = false;
         String strmsg = "Please Enter ";
+        int flag = 0;
 
         if (Pin.length() == 0 && Repin.length() == 0) {
             strmsg += "All the fields";
@@ -114,19 +115,23 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
         } else if (Pin.length() == 0) {
             strmsg += "Pin";
             error = true;
-        } else if (Repin.length() == 0) {
-            strmsg += "Repin";
-            error = true;
         } else if (Pin.length() < 4) {
             strmsg += "Pin of minimun 4 digits";
             error = true;
+        } else if (Repin.length() == 0) {
+            strmsg += "Pin";
+            flag = 1;
+            error = true;
         } else if (!Pin.equals(Repin)) {
-            strmsg += "Pin and Repin same";
+            strmsg += "And Re-Enter Pin Same";
             error = true;
         }
 
         if (error == true) {
-            String replacedString = strmsg.replace("Please Enter ,", "Please Enter ");
+            String replacedString = strmsg;
+            if (flag == 1) {
+                replacedString = strmsg.replace("Please Enter ", "Please Re-Enter ");
+            }
             ShowAlert(replacedString);
         }
         return error;

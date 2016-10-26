@@ -4,24 +4,22 @@ package com.gabzil.stivouch;
  * Created by Yogesh on 24-Oct-16.
  */
 public class StateEntities {
-    int StateID;
-    String State;
+    int StatesID;
+    String States;
 
-    public int getStateID() {
-        return StateID;
+    public int getStatesID() {
+        return StatesID;
     }
 
-    public void setStateID(int StateID) {
-        StateID = StateID;
+    public void setStatesID(int statesID) {
+        StatesID = statesID;
     }
 
-    public String getState() {
-        return State;
+    public String getStates() {
+        return States;
     }
 
-    public void setState(String State) {
-        State = State;
+    public void setStates(String states) {
+        States = states;
     }
-
-
 }
