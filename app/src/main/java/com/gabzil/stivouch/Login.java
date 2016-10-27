@@ -75,6 +75,7 @@ public class Login extends Activity implements OnCityTaskCompleted,OnLoginTaskCo
                             ConnectivityManager ConnectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                             NetworkInfo networkInfo = ConnectionManager.getActiveNetworkInfo();
                             if (networkInfo != null && networkInfo.isConnected() == true) {
+                                dh.UpdateDate(str, 1);
                                 GetCitiesAndStates();
                             } else {
                                 OpenInternetSetting();
@@ -258,5 +259,11 @@ public class Login extends Activity implements OnCityTaskCompleted,OnLoginTaskCo
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Login.this,UserSelection.class);
+        startActivity(i);
     }
 }

@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/curve"
                         android:padding ="2dp"
-                        android:maxLength="25"
+                        android:maxLength="50"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -221,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/curve"
                     android:padding ="2dp"
-                    android:maxLength="25"
+                    android:maxLength="50"
                     android:singleLine="true" />
 
                 <TextView
@@ -240,7 +240,7 @@
                     android:background="@drawable/curve"
                     android:inputType="number"
                     android:padding ="2dp"
-                    android:maxLength="25"
+                    android:maxLength="50"
                     android:singleLine="true"/>
 
                 <Button

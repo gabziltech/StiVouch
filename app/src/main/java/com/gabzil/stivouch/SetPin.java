@@ -65,7 +65,7 @@ public class SetPin extends Activity implements OnPinTaskCompleted, OnVerifyTask
                 DataHelp dh = new DataHelp(getApplicationContext());
                 dh.DeleteSelection();
                 Intent i = new Intent(SetPin.this, LandingPage.class);
-                i.putExtra("key1", 0);
+                i.putExtra("key1", "0");
                 startActivity(i);
             }
         });

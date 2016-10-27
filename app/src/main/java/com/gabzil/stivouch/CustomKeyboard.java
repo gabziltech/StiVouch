@@ -145,6 +145,7 @@ class CustomKeyboard implements OnTaskCompleted {
     @Override
     public void OnTaskCompleted(String results) {
         try {
+
             if (results != "null" && results.length() > 0) {
                 if (results.equals("true")) {
                     e.setOTP("Yes");

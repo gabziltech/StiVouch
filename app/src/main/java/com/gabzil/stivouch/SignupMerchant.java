@@ -34,6 +34,8 @@ public class SignupMerchant extends Activity implements OnMerchantTaskCompleted 
         Username.addTextChangedListener(new MyTextWatcher(Username));
         Password.addTextChangedListener(new MyTextWatcher(Password));
         ConfirmPassword.addTextChangedListener(new MyTextWatcher(ConfirmPassword));
+        EMailID.addTextChangedListener(new MyTextWatcher(EMailID));
+        OwnerMailID.addTextChangedListener(new MyTextWatcher(OwnerMailID));
 
         CreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +252,7 @@ public class SignupMerchant extends Activity implements OnMerchantTaskCompleted 
                 if (results.equals("true")) {
                     Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(SignupMerchant.this, Login.class);
+                    i.putExtra("User", "Merchant");
                     startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
@@ -260,5 +263,12 @@ public class SignupMerchant extends Activity implements OnMerchantTaskCompleted 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(SignupMerchant.this,Login.class);
+        i.putExtra("User", "Merchant");
+        startActivity(i);
     }
 }

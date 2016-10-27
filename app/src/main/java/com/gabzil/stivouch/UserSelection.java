@@ -32,8 +32,5 @@ public class UserSelection extends Activity {
                 startActivity(intent);
             }
         });
-
-
     }
-
 }

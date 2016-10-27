@@ -144,7 +144,7 @@
                         android:background="@drawable/curve"
                         android:padding ="2dp"
                         android:lines="3"
-                        android:maxLength="100"/>
+                        android:maxLength="500"/>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -188,7 +188,7 @@
                         android:background="@drawable/curve"
                         android:padding ="2dp"
                         android:singleLine="true"
-                        android:maxLength="25"/>
+                        android:maxLength="50"/>
 
                 </LinearLayout>
 
@@ -258,7 +258,7 @@
                     android:background="@drawable/curve"
                     android:padding ="2dp"
                     android:singleLine="true"
-                    android:maxLength="25"/>
+                    android:maxLength="50"/>
 
                 <TextView
                     android:layout_width="fill_parent"

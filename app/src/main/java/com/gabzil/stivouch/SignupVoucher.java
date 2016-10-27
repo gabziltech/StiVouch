@@ -42,6 +42,7 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         Username.addTextChangedListener(new MyTextWatcher(Username));
         Password.addTextChangedListener(new MyTextWatcher(Password));
         ConfirmPassword.addTextChangedListener(new MyTextWatcher(ConfirmPassword));
+        EMailID.addTextChangedListener(new MyTextWatcher(EMailID));
 
         loadCityData();
         loadStateData();
@@ -262,6 +263,7 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
                 if (results.equals("true")) {
                     Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(SignupVoucher.this, Login.class);
+                    i.putExtra("User", "Voucher");
                     startActivity(i);
                 } else {
                     Toast.makeText(getApplicationContext(), "Some problem occured", Toast.LENGTH_SHORT).show();
@@ -274,4 +276,10 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(SignupVoucher.this,Login.class);
+        i.putExtra("User", "Voucher");
+        startActivity(i);
+    }
 }
