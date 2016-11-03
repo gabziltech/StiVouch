@@ -44,9 +44,6 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         ConfirmPassword.addTextChangedListener(new MyTextWatcher(ConfirmPassword));
         EMailID.addTextChangedListener(new MyTextWatcher(EMailID));
 
-        loadCityData();
-        loadStateData();
-
         SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yyyy");
         String currentDateTimeString = myFormat.format(new Date());
         DOB.setText(currentDateTimeString.substring(0, 12));
@@ -126,6 +123,8 @@ public class SignupVoucher extends Activity implements OnVoucherTaskCompleted {
         myCalendar = Calendar.getInstance();
         MainVoucher = new VoucherEntities();
         db = new MyOpenHelper(getApplicationContext());
+        loadCityData();
+        loadStateData();
     }
 
     public void setVoucherInfo() {
